@@ -1,71 +1,27 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+## Tổng quan Project
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+- Dự án được phát triển bằng ngôn ngữ **PHP 7.2** và framework **[Laravel 5.8](https://laravel.com/docs/5.8)**.
+- CSDL sử dụng hệ quản trị **MySQL** thông qua **[xampp](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.2.34/)**. Dữ liệu từ **[file Excel kỳ 2 năm học 2022-2023](/database/file/TKB%20HK2%2022-23%20-09-11-2022-14-34-55.xls)**, đầu ra dự kiến: file **[Docx](/database/file/Phan%20cong%20day%20de%20dieu%20chinh%20HK2%2022-23.docx)**
+- Các vấn đề đang gặp phải, bài toán cần giải quyết, bugs sẽ nằm trong tab **[Issues](https://github.com/nguyenviet3057/huce-schedule/issues)**.
+- *Đường dẫn demo sẽ được cập nhật sau (do hosting đang bị lỗi)*.
 
-## About Laravel
+## Giao diện hiện có
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Hiển thị và nhập số alpha, theo từng môn học của từng giảng viên có dạy: [click]()
+    ![](/public/image/ScreenShot_20230828132859.png "Trang nhập chỉ số alpha")
+    Định dạng số là *float*, học phần mà giảng viên không dạy thì sẽ không có phần nhập số. Hiện mặc định được thống kê theo số lớp dạy của từng học phần theo từng giảng viên để hiển thị.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Một số lưu ý
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Thuật toán sắp xếp lịch giảng dạy dự kiến:
 
-## Learning Laravel
+    - Bước 1: Xét môn có duy nhất 1 giảng viên dạy => ưu tiên xếp trước
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    - Bước 2: Xét các lớp khóa mới ưu tiên xếp trước, Các môn có nhiều giảng viên dạy thì theo tỉ lệ trọng số để chia lớp, vẫn tính lớp ghép = 2x lớp đơn (Chuẩn hóa tỉ lệ và kiểm tra bộ số theo tỉ lệ có tổng đúng bằng tổng số lượng lớp của học phần - phân biệt lớp ghép và lớp đơn, giảm/tăng 1 lớp cho 1 số trong bộ nếu tổng bộ số bị vượt quá tổng số lượng lớp - ưu tiên không bị trùng lịch đối với các lịch đã được sắp xếp và tiếp đến thường ưu tiên cho hệ số alpha cao hơn để tinh chỉnh, sao cho không có lớp học phần nào bị trống giảng viên)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost you and your team's skills by digging into our comprehensive video library.
+2. Lưu ý khác cần chú ý:
+    - Thay đổi dữ liệu Mã học phần 471752, Mã lớp học 64PM2: Tuần học 257 -> 578 (SQL schedule_detail_1109_20230826 -> now: `UPDATE schedule_detail SET WEEK_STUDY = '             5 78   ' AND WEEKS = '[15,17,18]'
+WHERE CLASS_CODE = 471752 AND ENROLL_CLASS = '64PM2' AND DAY_STUDY = 7`) ***(Do không khớp lịch của 2 lớp này do được ghép chung vào 1 lớp, chỉ khác đúng 1 tuần)*** [Issues 1](https://github.com/nguyenviet3057/huce-schedule/issues/1)
+    - Thay đổi dữ liệu Mã học phần 471791, Mã lớp học 65PM5, 65PM6, thứ 3, Tuần ' 45 ': tiết 4-6 (ca 2) <schedule_detail_1521_20230826> -> tiết 1-3 (ca 1) <`UPDATE schedule_detail SET SESSION = 1 WHERE CLASS_CODE = 471791 AND ENROLL_CLASS IN ('65PM5', '65PM6') AND START_DATE = '2023-04-11'`> ***(Do bị trùng lịch, môn này chỉ có 1 giảng viên nhưng dạy tất cả các lớp trong cùng 1 ca, 1 ngày)*** [Issues 2](https://github.com/nguyenviet3057/huce-schedule/issues/2)
+    - Thay đổi dữ liệu Mã học phần 471791, Mã lớp học 65PM3, 65PM4, thứ 4, Tuần ' 7 ': tiết 4-6 (ca 2) <schedule_detail_1529_20230826> -> tiết 1-3 (ca 1) <`UPDATE schedule_detail SET SESSION = 1 WHERE CLASS_CODE = 471791 AND ENROLL_CLASS IN ('65PM3', '65PM4') AND START_DATE = '2023-02-22'`> ***(Do bị trùng lịch, môn này chỉ có 1 giảng viên nhưng dạy tất cả các lớp trong cùng 1 ca, 1 ngày)*** [Issues 2](https://github.com/nguyenviet3057/huce-schedule/issues/2)
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

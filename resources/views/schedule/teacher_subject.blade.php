@@ -41,7 +41,7 @@
                 @endforeach
             </tbody>
         </table>
-        <button type="submit">Submit</button>
+        <button type="submit" style="width: 80px; height: 40px; background-color: lightgreen; border-radius: 5px; margin-top: 20px; cursor: pointer;">Submit</button>
     </form>
 </body>
 </html>
