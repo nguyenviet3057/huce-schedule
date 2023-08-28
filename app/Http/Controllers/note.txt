@@ -1,0 +1,19 @@
+1. mergeClass()
+- Check records have same subject_code and teacher_id, merge 2 class for each teacher, the minimum pairs >= $min, having max = total possibilities/2.
+[teacher, merge] =
+    [1, 1] -> [2, 1] -> [3, 1] -> ... -> [n, 1]
+->  [1, 2] -> [2, 1] -> [3, 1] -> ... -> [n, 1]
+->  [1, 2] -> [2, 2] -> [3, 1] -> ... -> [n, 1]
+->  ...
+->  [1, 2] -> [2, 2] -> [3, 2] -> ... -> [n, 2]
+->  [1, 3] -> [2, 1] -> [3, 1] -> ... -> [n, 1]
+->  ...
+->  [1, 3] -> [2, 2] -> [3, 1] -> ... -> [n, 1]
+->  ...
+->  [1, 3] -> [2, 3] -> [3, 3] -> ... -> [n, 3]
+->  [1, 4] -> [2, 1] -> ...
+        |
+      <= max
+->  ...
+->  [1, max1] -> [2, max2] -> ... -> [n, maxn]
+=> END
