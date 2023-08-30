@@ -1,13 +1,14 @@
 ## Tổng quan Project
 
 - Dự án được phát triển bằng ngôn ngữ **PHP 7.2** và framework **[Laravel 5.8](https://laravel.com/docs/5.8)**.
-- CSDL sử dụng hệ quản trị **MySQL** thông qua **[xampp](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.2.34/)**. Dữ liệu từ **[file Excel kỳ 2 năm học 2022-2023](/database/file/TKB%20HK2%2022-23%20-09-11-2022-14-34-55.xls)**, đầu ra dự kiến: file **[Docx](/database/file/Phan%20cong%20day%20de%20dieu%20chinh%20HK2%2022-23.docx)**
+- CSDL sử dụng hệ quản trị **MySQL** thông qua **[xampp](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.2.34/)**. Dữ liệu từ **[file Excel kỳ 2 năm học 2022-2023](/database/file/TKB%20HK2%2022-23%20-09-11-2022-14-34-55.xls)**, đầu ra dự kiến: **[file Docx](/database/file/Phan%20cong%20day%20de%20dieu%20chinh%20HK2%2022-23.docx)**
 - Các vấn đề đang gặp phải, bài toán cần giải quyết, bugs sẽ nằm trong tab **[Issues](https://github.com/nguyenviet3057/huce-schedule/issues)**.
-- *Đường dẫn demo sẽ được cập nhật sau (do hosting đang bị lỗi)*.
+- Web demo: **[click](https://planx-sample.000webhostapp.com/)**.
+- File database: *[huce.sql](/database/huce.sql)*
 
 ## Giao diện hiện có
 
-- Hiển thị và nhập số alpha, theo từng môn học của từng giảng viên có dạy: [click]()
+- Hiển thị và nhập số alpha, theo từng môn học của từng giảng viên có dạy: [click](https://planx-sample.000webhostapp.com/teacher-subject)
     ![](/public/image/ScreenShot_20230828132859.png "Trang nhập chỉ số alpha")
     Định dạng số là *float*, học phần mà giảng viên không dạy thì sẽ không có phần nhập số. Hiện mặc định được thống kê theo số lớp dạy của từng học phần theo từng giảng viên để hiển thị.
 
